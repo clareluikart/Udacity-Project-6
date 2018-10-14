@@ -1,5 +1,7 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
+import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -10,17 +12,20 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
-  }
+      showSearchPage: false
+    }
 
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-              <div className="search-books-input-wrapper">
+        <Route exact path="/search" render = {() => (
+            <div className="search-books">
+              <div className="search-books-bar">
+                <Link to={{
+                    pathname: "/" ,
+                    state: { showSearchPage: false }
+                  }} className="close-search" >Close</Link>
+                <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
@@ -30,24 +35,25 @@ class BooksApp extends React.Component {
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
                 <input type="text" placeholder="Search by title or author"/>
-
+                </div>
+              </div>
+              <div className="search-books-results">
+                <ol className="books-grid"></ol>
               </div>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-        ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
+            )}/>
+            <Route exact path = "/" render = {() => (
+            <div>
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
+                <div>
+                  <div className="bookshelf">
+                    <h2 className="bookshelf-title">Currently Reading</h2>
+                    <div className="bookshelf-books">
+                      <ol className="books-grid">
                       <li>
                         <div className="book">
                           <div className="book-top">
@@ -193,12 +199,18 @@ class BooksApp extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
           </div>
-        )}
-      </div>
+            <div className = "open-search">
+              <Link to={{
+                  pathname: "/search" ,
+                  state: { showSearchPage: true }
+                }}>
+                Add a book
+              </Link>
+          </div>
+        </div>
+        )}/>
+        </div>
     )
   }
 }
