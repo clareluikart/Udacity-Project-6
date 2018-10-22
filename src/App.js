@@ -3,6 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import { search } from './BooksAPI'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
+import BooksList from './BooksList' //this helped me solve an error here https://stackoverflow.com/questions/44172727/home-does-not-contain-an-export-named-home
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -14,11 +15,19 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
       showSearchPage: false ,
+      searches: [],
       currentlyReading: [] ,
       wantToRead: [] ,
       read: [] ,
       query: ""
-    }
+  }
+
+  componentDidMount() {
+    BooksAPI.search(this.state.query).then((books) => {
+      this.setState({ searches: books })
+    })
+  }
+
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
   }
@@ -42,16 +51,21 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */
-
+                  console.log(search(this.state.query))
                 }
                 <input type="text"
                   placeholder="Search by title or author"
                   value={this.state.query}
-                  onChange={(event) => this.updateQuery(event.target.value)}/>
+                  onChange={(event) => {
+                    this.updateQuery(event.target.value);
+                  }}/>
                 </div>
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
+                  <BooksList
+                    books={this.state.searches}
+                  />
                 </ol>
               </div>
             </div>
