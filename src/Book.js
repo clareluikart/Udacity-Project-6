@@ -9,7 +9,6 @@ export default class Book extends React.Component{
     return (
       <div className="book">
         <div className="book-top">
-          {console.log(this.props.book)}
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: ('url('+this.props.book.imageLinks.smallThumbnail+')') }}></div>
             <Changer book={this.props.book} onChange={this.props.onChange}/>
         </div>
