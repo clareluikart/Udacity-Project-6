@@ -5,18 +5,33 @@ export default class Bookshelf extends React.Component{ //solved bug here with h
   state = {
   }
 
+  // render() {
+  //   return (
+  //     <div className="bookshelf-books">
+  //       <ol className="books-grid">
+  //         {this.props.booksList.forEach(bookInArray => (
+  //           <li key={bookInArray.id}>
+  //             <Book book={ bookInArray } />
+  //             {console.log({bookInArray})}
+  //           </li>
+  //         ))}
+  //       </ol>
+  //     </div>
+  //   )
+  // }
   render() {
     return (
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {this.props.booksList.forEach(bookInArray => (
-            <li key={bookInArray.id}>
-              <Book book={ bookInArray } />
-              {console.log({bookInArray})}
-            </li>
-          ))}
+          {this.props.booksList.map(bookInArray => {
+            return (
+                <li key={bookInArray.id}>
+                  <Book book={bookInArray} />
+                </li>
+            );
+          })}
         </ol>
       </div>
-    )
+    );
   }
 }
