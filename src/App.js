@@ -3,7 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import { search } from './BooksAPI'
 import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
-import BooksList from './BooksList'
+import Search from './Search'
 import './App.css'
 import Bookshelf from './Bookshelf' //this helped me solve an error here https://stackoverflow.com/questions/44172727/home-does-not-contain-an-export-named-home
 
@@ -18,11 +18,11 @@ class BooksApp extends React.Component {
       query: ""
   }
 
-  // componentDidMount() {
-  //   BooksAPI.search(this.state.query).then((books) => {
-  //     this.setState({ searches: books })
-  //   })
-  // }
+  updateSearches() {
+    BooksAPI.search(this.state.query).then((searches) => {
+      this.setState({ searches })
+    })
+  }
 
   componentDidMount() {
     BooksAPI.getAll().then((allBooks) => {
@@ -41,8 +41,11 @@ class BooksApp extends React.Component {
     })}
   )}
 
-  updateQuery = (query) => {
-    this.setState({ query: query.trim() })
+  updateSearches = (query) => {
+    this.setState({ query })
+    BooksAPI.search(query).then((searches) => {
+      this.setState({searches})
+    })
   }
 
   bookUpdate = (allBooks) => {
@@ -77,23 +80,16 @@ class BooksApp extends React.Component {
                   }} className="close-search" >Close</Link>
                 <div className="search-books-input-wrapper">
                 {
-                  console.log(search(this.state.query))
                 }
                 <input type="text"
                   placeholder="Search by title or author"
                   value={this.state.query}
                   onChange={(event) => {
-                    this.updateQuery(event.target.value);
+                    this.updateSearches(event.target.value)
                   }}/>
                 </div>
               </div>
-              <div className="search-books-results">
-                <ol className="books-grid">
-                  <BooksList
-                    books={this.state.searches}
-                  />
-                </ol>
-              </div>
+              <Search onChange={this.shelfChange} booksList={this.state.searches}/>
             </div>
             )}/>
             <Route exact path = "/" render = {() => (
