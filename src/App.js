@@ -9,12 +9,6 @@ import Bookshelf from './Bookshelf' //this helped me solve an error here https:/
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
       showSearchPage: false ,
       allBooks: [],
       searches: [],
@@ -36,6 +30,14 @@ class BooksApp extends React.Component {
       this.bookUpdate(this.state.allBooks)
     })
   }
+
+  shelfChange = (book, shelf) => {
+    BooksAPI.update(book, shelf).then(
+      BooksAPI.getAll().then((allBooks) => {
+        this.setState({allBooks})
+        this.bookUpdate(allBooks)
+    })
+  )}
 
   updateQuery = (query) => {
     this.setState({ query: query.trim() })
@@ -72,14 +74,7 @@ class BooksApp extends React.Component {
                     state: { showSearchPage: false }
                   }} className="close-search" >Close</Link>
                 <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */
+                {
                   console.log(search(this.state.query))
                 }
                 <input type="text"
@@ -109,15 +104,15 @@ class BooksApp extends React.Component {
                 <div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Want to Read</h2>
-                    <Bookshelf booksList={this.state.wantToRead} />
+                    <Bookshelf onChange={this.shelfChange} booksList={this.state.wantToRead} />
                   </div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Currently Reading</h2>
-                    <Bookshelf booksList={this.state.currentlyReading} />
+                    <Bookshelf onChange={this.shelfChange} booksList={this.state.currentlyReading} />
                   </div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Read</h2>
-                    <Bookshelf booksList={this.state.read} />
+                    <Bookshelf onChange={this.shelfChange} booksList={this.state.read} />
                 </div>
               </div>
             </div>

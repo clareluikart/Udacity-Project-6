@@ -2,13 +2,21 @@ import React from 'react'
 
 export default class Changer extends React.Component{
   state = {
+    value: this.props.book.shelf
+  }
 
+  onChange = (event) => {
+    this.setState({value: event.target.value})
+    console.log(event.target.value)
+    console.log(this.state.value)
+    console.log(this.props.book)
+    this.props.onChange(this.props.book, event.target.value)
   }
 
 render() {
   return (
     <div className="book-shelf-changer">
-      <select>
+      <select value={this.state.value} onChange={this.onChange}>
         <option value="move" disabled>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
