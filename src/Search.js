@@ -11,7 +11,8 @@ export default class Search extends React.Component {
     return(
       <div className="search-books-results">
         <ol className="books-grid">
-          {this.props.booksList.map(bookInArray => {
+          {this.props.booksList.length > 0 &&
+          this.props.booksList.map(bookInArray => {
             return (
                 <li key={bookInArray.id}>
                   <Book onChange={this.props.onChange} book={bookInArray} />
