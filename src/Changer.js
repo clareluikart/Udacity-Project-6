@@ -7,7 +7,6 @@ export default class Changer extends React.Component{
 
   onChange = (event) => {
     this.setState({value: event.target.value})
-    console.log("on change! this.props.book:"+this.props.book+" event.target.value:"+event.target.value+" this.state.value:"+this.state.value)
     this.props.onChange(this.props.book, event.target.value)
   }
 

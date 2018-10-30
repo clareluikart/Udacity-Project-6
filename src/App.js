@@ -87,7 +87,7 @@ class BooksApp extends React.Component {
                 </div>
               </div>
               {this.state.searches !== undefined && this.state.searches[0] !== undefined &&
-              <Search onChange={this.shelfChange} booksList={this.state.searches}/>}
+              <Search onChange={this.shelfChange} booksList={this.state.searches} allBooks={this.state.allBooks}/>}
             </div>
             )}/>
             <Route exact path = "/" render = {() => (
