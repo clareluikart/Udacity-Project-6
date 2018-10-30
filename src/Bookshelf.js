@@ -23,7 +23,7 @@ export default class Bookshelf extends React.Component{ //solved bug here with h
     return (
       <div className="bookshelf-books">
         <ol className="books-grid">
-          {this.props.booksList.map(bookInArray => {
+          {this.props.booksList.map(bookInArray => { //got help for this part from @drunkenkismet on Slack
             return (
                 <li key={bookInArray.id}>
                   <Book onChange={this.props.onChange} book={bookInArray} />
