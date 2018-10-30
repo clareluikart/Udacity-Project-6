@@ -25,7 +25,7 @@ export default class Book extends React.Component{
 
         <div className="book-title">{this.props.book.title}</div>
         {this.props.book.authors !== undefined &&
-        <div className="book-authors">{this.props.book.authors[0]}</div>}
+        <div className="book-authors">{this.props.book.authors.join(", ")}</div>}
       </div>
     )
   }
